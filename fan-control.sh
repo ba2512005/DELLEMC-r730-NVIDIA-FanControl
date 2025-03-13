@@ -20,9 +20,9 @@ source "$CONFIG_FILE"
 # Construct the IPMI command with parameters from the config file
 IPMI_COMMAND="ipmitool -I lanplus -H $IPMI_HOST -U $IPMI_USER -P $IPMI_PASSWORD -y $IPMI_YKEY"
 
-# Load IPMI control script (ensure the path is correct)
-echo "Running take-control.sh..." | tee -a $DEBUG_LOG
-/opt/fan-control/take-control.sh >> $DEBUG_LOG 2>&1
+#Initialize fan control
+echo "Setting fans to manual control" | tee -a $DEBUG_LOG
+$IPMI_COMMAND raw 0x30 0x30 0x01 0x00
 
 # Function to keep logs for only 1 hour
 manage_logs() {
